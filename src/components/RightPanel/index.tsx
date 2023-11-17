@@ -1,10 +1,11 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
+import type { RefObject } from 'react';
 import './RightPanel.css';
 import {Loader} from '../Loader';
 import {debounce} from '../../utils';
 import {useAppSelector} from '../../app/hooks';
 import {selectAllPokemon} from '../../features/pokemon/selectors';
-import {LoadingState, PartialPokemon, Pokemon} from '../../types';
+import {LoadingState, PartialPokemon} from '../../types';
 import {PokemonStats} from '../PokemonStats';
 import {PokemonType} from '../PokemonType';
 import {Evolution} from '../Evolution';
@@ -17,17 +18,15 @@ export function RightPanel(props: any) {
   const types = props.pData.types;
   const stats = props.pData.stats;
   const moves = props.pData.moves;
-  const inputRef = useRef(null);
-  const dropdownRef = useRef(null);
+  const inputRef: RefObject<HTMLInputElement> = useRef(null);
+  const dropdownRef: RefObject<HTMLUListElement> = useRef(null);
 
-  const [pokemon, setPokemon] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [loading, setLoading] = useState<LoadingState>(
     LoadingState.NOT_STARTED
   );
-  const [searchHistory, setSearchHistory] = useState<any[]>([]);
+  const [searchHistory, setSearchHistory] = useState<string[]>([]);
   const [search, setSearch] = useState('');
-  // TODO: update the type to a pokemon
   const [searchResults, setSearchResults] = useState<PartialPokemon[]>([]);
 
   const debouncedGetPokemon = useCallback(
@@ -66,12 +65,12 @@ export function RightPanel(props: any) {
   }, [debouncedGetPokemon, loading, search]);
 
   useEffect(() => {
-    const handleOutsideClick = (event) => {
+    const handleOutsideClick = (event: MouseEvent) => {
       if (
         inputRef.current &&
-        !inputRef.current.contains(event.target) &&
+        !inputRef.current?.contains(event.target as Node) &&
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
+        !dropdownRef.current?.contains(event.target as Node)
       ) {
         setDropdownVisible(false);
       }

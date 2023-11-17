@@ -3,15 +3,12 @@ import './PokemonImage.css';
 
 interface Props {
   src: {
-    front_default: string;
-  } | undefined;
+    front_default?: string;
+  };
 }
 
 export function PokemonImage({src}: Props) {
-  const imgSrc = src?.['front_default'];
-  // TODO(ariel): loading state
-  // failed state
-  // successful state
+  const imgSrc = src?.['front_default'] ?? '';
 
   return (
     <div>

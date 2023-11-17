@@ -3,27 +3,26 @@ import {MoveLoader} from './MoveLoader';
 import { MoveEntry } from './MoveEntry';
 import { LoadingState, Move } from '../../types';
 import './MoveList.css';
+import { getMove } from '../../features/pokemon/pokemonAPI';
 
 export function MoveList(props: any) {
   const [index, setIndex] = useState(0);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
   const [loading, setLoading] = useState(LoadingState.NOT_STARTED);
 
-  const loadMoves = useCallback(() => {
-    // TODO: move this up
+  const loadMoves = useCallback(async () => {
     setLoading(LoadingState.LOADING);
     setIndex(index);
-    fetch(props.moves[index].move.url)
-      .then(res => res.json())
-      .then(data => {
-        setCurrentMove(data)
-        setLoading(LoadingState.DONE)
-      })
-      .catch((error) => {
-        console.error({error});
-        setCurrentMove(null)
-        setLoading(LoadingState.ERROR)
-      })
+    try {
+      const url = props.moves[index].move.url;
+      const data = await getMove(url);
+      setCurrentMove(data)
+      setLoading(LoadingState.DONE)
+    } catch (error) {
+      console.error({error})
+      setCurrentMove(null)
+      setLoading(LoadingState.ERROR)
+    }
 
   }, [props.moves, index])
 
