@@ -33,7 +33,6 @@ export function RightPanel(props: any) {
   const debouncedGetPokemon = useCallback(
     debounce(async (value: string) => {
       try {
-        // TODO: clean this up
         setLoading(LoadingState.LOADING);
         const filteredResults = allPokemon.filter((pokemon) => pokemon.name
           .toLocaleLowerCase()
@@ -107,6 +106,11 @@ export function RightPanel(props: any) {
     // TODO: set the active pokemon
   }
 
+  const showEmpty =
+    searchResults.length === 0 &&
+    search.length > 0 &&
+    loading === LoadingState.DONE;
+
   if (types) {
     return (
       <div className="right-panel__wrapper">
@@ -126,15 +130,24 @@ export function RightPanel(props: any) {
               width: inputRef.current?.clientWidth,
             }}
           >
-            {searchResults.map((pokemon, index) => (
+            {searchResults.length > 0 && (
+              searchResults.map((pokemon, index) => (
+                <li
+                  key={index}
+                  className="right-panel__list-item"
+                  onClick={() => handleItemClick(pokemon)}
+                >
+                  {pokemon.name}
+                </li>
+              ))
+            )}
+            {showEmpty && (
               <li
-                key={index}
                 className="right-panel__list-item"
-                onClick={() => handleItemClick(pokemon)}
               >
-                {pokemon.name}
+                no match for "{search}""
               </li>
-            ))}
+            )}
           </ul>
         )}
         <div className="panel-row">
@@ -142,7 +155,13 @@ export function RightPanel(props: any) {
             Previously Searched Items:
             <ul className="search-items__list">
               {searchHistory.map((item, index) => (
-                <li className="search-items__list-item" key={index} onClick={() => setSearch(item)}>{item}</li>
+                <li
+                  className="search-items__list-item"
+                  key={index}
+                  onClick={() => setSearch(item)}
+                >
+                  {item}
+                </li>
               ))}
             </ul>
           </div>
