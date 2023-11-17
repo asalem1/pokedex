@@ -11,6 +11,7 @@ interface Props {
 
 export function LeftPanel(props: Props) {
   const pData = props.pData;
+  // TODO(ariel): flesh out loading states
   const description = props.description ?? 'Loading....'
   const id = props.id ?? 'XXXX';
   const name = pData?.name ?? 'Loading...'

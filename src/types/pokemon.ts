@@ -42,8 +42,8 @@ interface Move {
 
 interface Sprite {} // TODO: tighten TS
 
-interface Stat {
-  base_state: number;
+export interface Stat {
+  base_stat: number;
   effort: number;
   stat: {
     name: string;
