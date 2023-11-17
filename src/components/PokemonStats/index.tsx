@@ -8,7 +8,7 @@ interface Props {
 
 export function PokemonStats({ stats }: Props) {
   return (
-    <div className="screen stats">
+    <div className="pokemon-stats__wrapper">
       {stats.map((s) => {
         const name = s.stat.name;
         const value = s.base_stat ?? 'xx';

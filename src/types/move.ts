@@ -14,7 +14,7 @@ interface VersionGroup {
   url: string;
 }
 
-interface FlavorTextEntry {
+export interface FlavorTextEntry {
   flavor_text: string;
   language: Language;
   version_group: VersionGroup
