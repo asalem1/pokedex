@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import './Divider.css';
 
 export const Divider = () => (
   <div className="divider">
