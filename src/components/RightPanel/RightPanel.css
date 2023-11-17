@@ -31,6 +31,21 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
+.right-panel__searched-items {
+  background: linear-gradient(14deg, rgb(165, 205, 83) 60%, rgb(193, 217, 144) 65%);
+  padding: 5px;
+  border-radius: 3px;
+  font-family: "VT323";
+  border: inset #879a65 3px;
+  font-size: 18px;
+  letter-spacing: 4px;
+  text-transform: capitalize;
+  height: 100px;
+  box-sizing: border-box;
+  width: 100%;
+  overflow-y: auto;
+}
+
 .panel-row {
   display: flex;
   justify-content: space-between;
@@ -44,4 +59,18 @@
 .pokedex__search {
   font-family: "VT323";
   font-size: 18px;
+}
+
+.search-items__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.search-items__list-item {
+  cursor: pointer;
+}
+
+.search-items__list-item:hover {
+  background-color: rgba(0,0,0,.1);
 }

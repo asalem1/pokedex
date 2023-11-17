@@ -14,7 +14,7 @@ export function PokemonStats({ stats }: Props) {
         const value = s.base_stat ?? 'xx';
 
         return (
-          <div className="stat-line">
+          <div className="stat-line" key={name}>
             <span>{name}</span>
             <span>{value}</span>
           </div>

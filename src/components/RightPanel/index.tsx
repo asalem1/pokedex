@@ -36,10 +36,6 @@ export function RightPanel(props: any) {
         const filteredResults = allPokemon.filter((pokemon) => pokemon.name
           .toLocaleLowerCase()
           .includes(value.toLocaleLowerCase()));
-        setSearchHistory((prev: any[]) => {
-          console.log({prev, value});
-          return [...prev, value];
-        });
         setSearchResults(filteredResults);
         setLoading(LoadingState.DONE);
       } catch (error) {
@@ -93,6 +89,11 @@ export function RightPanel(props: any) {
   const handleItemClick = (pokemon: PartialPokemon) => {
     console.log({pokemon})
     setSearch(pokemon.name);
+    const updatedHistory = searchHistory.slice()
+    if (!searchHistory.includes(pokemon.name)) {
+      updatedHistory.push(pokemon.name)
+    }
+    setSearchHistory(updatedHistory);
     setDropdownVisible(false);
     // TODO: set the active pokemon
   }
@@ -127,6 +128,16 @@ export function RightPanel(props: any) {
             ))}
           </ul>
         )}
+        <div className="panel-row">
+          <div className="right-panel__searched-items">
+            Previously Searched Items:
+            <ul className="search-items__list">
+              {searchHistory.map((item, index) => (
+                <li className="search-items__list-item" key={index} onClick={() => setSearch(item)}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
         <div className="panel-row">
           <PokemonStats stats={stats} />
           <PokemonType types={types} />
