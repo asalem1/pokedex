@@ -3,9 +3,9 @@ import './MoveList.css';
 
 export function MoveLoader() {
   return (
-    <div className="move-entry__body">
+    <div className="move-entry__wrapper">
       <div>
-        <div className="move-entry__name-name" style={{textTransform: 'none'}}>
+        <div className="move-entry__name" style={{textTransform: 'none'}}>
           xxxxx xxxxx
         </div>
         <div className="move-entry__stat">

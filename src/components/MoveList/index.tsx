@@ -10,6 +10,7 @@ export function MoveList(props: any) {
   const [loading, setLoading] = useState(LoadingState.NOT_STARTED);
 
   const loadMoves = useCallback(() => {
+    // TODO: move this up
     setLoading(LoadingState.LOADING);
     setIndex(index);
     fetch(props.moves[index].move.url)
