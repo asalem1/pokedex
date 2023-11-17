@@ -48,7 +48,7 @@ export function MoveList(props: any) {
   const showMoveLoader = loading === LoadingState.LOADING || currentMove === null;
 
   return (
-    <div className="move-list">
+    <div className="move-list__wrapper">
       {showMoveLoader ? (
         <MoveLoader />
       ) : (

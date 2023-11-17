@@ -45,3 +45,42 @@
   flex-direction: column;
   align-items: end;
 }
+
+.move-list__wrapper {
+  display: flex;
+}
+
+.move-controls {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 0 10px 0 7px;
+}
+.move-arrow {
+    height: 40px;
+    width: 40px;
+    font-size: 37px;
+    border: groove grey 3px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: #e78181 -1px 1px;
+    cursor: pointer;
+    transform: rotate(60deg);
+}
+.move-arrow > * {
+    transform: rotate(-60deg);
+}
+.move-arrow:first-child > * {
+    padding-bottom: 5px;
+}
+.move-arrow:last-child > * {
+    padding-top: 1px;
+}
+.move-arrow:hover {
+    border-color: rgb(184, 237, 124);
+}
+.move-arrow:active {
+    border-color: rgb(244, 252, 185);
+}
