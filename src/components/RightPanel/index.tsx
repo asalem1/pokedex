@@ -16,6 +16,7 @@ export function RightPanel(props: any) {
   const stats = props.pData.stats;
   const moves = props.pData.moves;
   const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   const [pokemon, setPokemon] = useState([]);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -32,14 +33,9 @@ export function RightPanel(props: any) {
       try {
         // TODO: clean this up
         setLoading(LoadingState.LOADING);
-        console.log({allPokemon});
-        const filteredResults = allPokemon.filter((pokemon) => {
-          console.log({pokemon});
-          return pokemon.name
-            .toLocaleLowerCase()
-            .includes(value.toLocaleLowerCase());
-        });
-        console.log({filteredResults});
+        const filteredResults = allPokemon.filter((pokemon) => pokemon.name
+          .toLocaleLowerCase()
+          .includes(value.toLocaleLowerCase()));
         setSearchHistory((prev: any[]) => {
           console.log({prev, value});
           return [...prev, value];
@@ -57,7 +53,6 @@ export function RightPanel(props: any) {
 
   useEffect(() => {
     if (search) {
-      console.log({search});
       debouncedGetPokemon(search);
     }
     if (!search && loading !== LoadingState.NOT_STARTED) {
@@ -68,7 +63,12 @@ export function RightPanel(props: any) {
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
-      if (inputRef.current && !inputRef.current.contains(event.target)) {
+      if (
+        inputRef.current &&
+        !inputRef.current.contains(event.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
         setDropdownVisible(false);
       }
     };
@@ -91,6 +91,8 @@ export function RightPanel(props: any) {
   }
 
   const handleItemClick = (pokemon: PartialPokemon) => {
+    console.log({pokemon})
+    setSearch(pokemon.name);
     setDropdownVisible(false);
     // TODO: set the active pokemon
   }
@@ -99,6 +101,7 @@ export function RightPanel(props: any) {
     return (
       <div className="right-panel__wrapper">
         <input
+          className="pokedex__search"
           placeholder="Search..."
           value={search}
           onChange={handleInputChange}
@@ -106,7 +109,13 @@ export function RightPanel(props: any) {
           ref={inputRef}
         />
         {dropdownVisible && (
-          <ul className="right-panel__list-wrapper">
+          <ul
+            className="right-panel__list-wrapper"
+            ref={dropdownRef}
+            style={{
+              width: inputRef.current?.clientWidth,
+            }}
+          >
             {searchResults.map((pokemon, index) => (
               <li
                 key={index}
