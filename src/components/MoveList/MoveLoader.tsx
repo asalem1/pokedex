@@ -1,29 +1,29 @@
 import React from "react";
-import './MoveLoader.css';
+import './MoveList.css';
 
 export function MoveLoader() {
   return (
-    <div className="move-loader__body">
+    <div className="move-entry__body">
       <div>
-        <div className="move-loader__name-name" style={{textTransform: 'none'}}>
+        <div className="move-entry__name-name" style={{textTransform: 'none'}}>
           xxxxx xxxxx
         </div>
-        <div className="move-loader__stat">
+        <div className="move-entry__stat">
           <span>Accuracy</span>
           <span>xx</span>
         </div>
-        <div className="move-loader__stat">
+        <div className="move-entry__stat">
           <span>Power</span>
           <span>xx</span>
         </div>
-        <div className="move-loader__stat">
+        <div className="move-entry__stat">
           <span>PP</span>
           <span>xx</span>
         </div>
       </div>
-      <div className="move-loader__right-panel">
-        <div className="move-loader__type">Type: xxxxx</div>
-        <div className="move-loader__learn">Learn: Lvl xx</div>
+      <div className="move-entry__right-panel">
+        <div className="move-entry__type">Type: xxxxx</div>
+        <div className="move-entry__learn">Learn: Lvl xx</div>
       </div>
     </div>
   );

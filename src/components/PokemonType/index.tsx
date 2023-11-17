@@ -1,5 +1,6 @@
 import React from 'react';
 import { Type } from '../../types';
+import './PokemonType.css';
 
 interface Props {
   types: Type[];
