@@ -16,7 +16,7 @@ export function PokemonImageSmall({ evo, name, src }: Props) {
       <img
         src={src}
         alt="pokemon"
-        className="pokemon-sprite pokemon-sprite-small"
+        className="pokemon-sprite__small"
       />
     );
   }
@@ -24,10 +24,10 @@ export function PokemonImageSmall({ evo, name, src }: Props) {
   return (
     <div>
       <div className="flex-center">
-        <div className="evo-num">{evo}</div>
+        <div className="evolution__number">{evo}</div>
       </div>
       {evoImage}
-      <div className="screen evo-name">{name || 'No Data'}</div>
+      <div className="evolution__name">{name || 'No Data'}</div>
     </div>
   );
 }

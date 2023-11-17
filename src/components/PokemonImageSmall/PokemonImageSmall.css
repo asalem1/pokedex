@@ -1,0 +1,37 @@
+.pokemon-sprite__small {
+  display: flex;
+  image-rendering: pixelated;
+  border: inset #9aa28b 3px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  background: linear-gradient(15deg, #cad5b5 64%, #dde2d4 70%, #dde2d4 81%, #fff 86%, #dde2d4 89%, #dde2d4 100%);
+  height: 120px;
+  width: 120px;
+  margin: 3px 0;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.evolution__number {
+  font-family: "Staatliches", cursive;
+  font-size: 1.25em;
+  letter-spacing: 2px;
+  background: transparent;
+  border: none;
+  text-shadow: #e78181 -1px 1px;
+}
+.evolution__name {
+  width: auto;
+  padding: 3px;
+  margin-bottom: 3px;
+  text-align: right;
+  background: linear-gradient(14deg, rgb(165, 205, 83) 60%, rgb(193, 217, 144) 65%);
+  padding: 5px;
+  border-radius: 3px;
+  font-family: "VT323";
+  border: inset #879a65 3px;
+}
