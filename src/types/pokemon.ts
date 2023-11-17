@@ -51,7 +51,7 @@ export interface Stat {
   }
 }
 
-interface Type {
+export interface Type {
   slot: number;
   type: {
     name: string;
