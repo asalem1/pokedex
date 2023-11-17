@@ -1,0 +1,84 @@
+.panel-header {
+  text-transform: capitalize;
+  font-size: 1.25em;
+  padding: 5px;
+  font-family: "Staatliches", cursive;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(14deg, #460f0f 0, #891313 30%, #b31818 45%, #fd5555 65%, #b31818 95%);
+  border: groove #e61515 3px;
+  border-width: 3px 2px;
+  text-shadow: #fd5555 -1px 1px;
+}
+
+.panel-row {
+  display: flex;
+  border-bottom: groove #757575 3px;
+  justify-content: space-evenly;
+}
+
+.panel-row:last-child {
+  border-top: groove #757575 3px;
+  border-bottom: none;
+}
+
+.panel-evo {
+  flex-wrap: wrap;
+}
+
+.pokemon-sprite {
+  width: 100%;
+  display: flex;
+  image-rendering: pixelated;
+  border: inset #9aa28b 3px;
+  border-radius: 5px;
+  margin: 10px 0;
+  box-sizing: border-box;
+  background: linear-gradient(15deg, #cad5b5 64%, #dde2d4 70%, #dde2d4 81%, #fff 86%, #dde2d4 89%, #dde2d4 100%);
+}
+
+.pokemon-sprite-small {
+  height: 120px;
+  width: 120px;
+  margin: 3px 0;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.evo-num {
+  font-family: "Staatliches", cursive;
+  font-size: 1.25em;
+  letter-spacing: 2px;
+  background: transparent;
+  border: none;
+  text-shadow: #e78181 -1px 1px;
+}
+.evo-name {
+  width: auto;
+  padding: 3px;
+  margin-bottom: 3px;
+  text-align: right;
+}
+
+.screen {
+  background: linear-gradient(14deg, rgb(165, 205, 83) 60%, rgb(193, 217, 144) 65%);
+  padding: 5px;
+  border-radius: 3px;
+  font-family: "VT323";
+  border: inset #879a65 3px;
+}
+
+.evo-header {
+  width: 100%;
+  /* background: linear-gradient(14deg, #460f0f 0, #891313 30%, #b31818 45%, #fd5555 65%, #b31818 95%);
+  border: groove #e61515 3px;
+  border-width: 5px 0;
+  text-shadow: #fd5555 -1px 1px; */
+  margin-bottom: 2px;
+}
