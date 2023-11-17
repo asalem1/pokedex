@@ -10,6 +10,8 @@ import {PokemonType} from '../PokemonType';
 import {Evolution} from '../Evolution';
 import {MoveList} from '../MoveList';
 
+const SAVED_SEARCH_ID = 'searchHistory';
+
 export function RightPanel(props: any) {
   const allPokemon = useAppSelector(selectAllPokemon) ?? [];
   const types = props.pData.types;
@@ -46,6 +48,13 @@ export function RightPanel(props: any) {
     }, 300),
     [allPokemon]
   );
+
+  useEffect(() => {
+    const localSearchHistory = localStorage.getItem(SAVED_SEARCH_ID);
+    if (localSearchHistory && typeof localSearchHistory === 'string') {
+      setSearchHistory(JSON.parse(localSearchHistory));
+    }
+  }, [])
 
   useEffect(() => {
     if (search) {
@@ -87,12 +96,12 @@ export function RightPanel(props: any) {
   }
 
   const handleItemClick = (pokemon: PartialPokemon) => {
-    console.log({pokemon})
     setSearch(pokemon.name);
     const updatedHistory = searchHistory.slice()
     if (!searchHistory.includes(pokemon.name)) {
       updatedHistory.push(pokemon.name)
     }
+    localStorage.setItem(SAVED_SEARCH_ID, JSON.stringify(updatedHistory));
     setSearchHistory(updatedHistory);
     setDropdownVisible(false);
     // TODO: set the active pokemon
