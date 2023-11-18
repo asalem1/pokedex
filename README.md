@@ -54,3 +54,4 @@ Once you've selected an pokemon from the list, that selection will be saved in t
 - Update the API to allow for partial name matching
 - Update the UI to handle various loading states differently through each section
 - Add a randomize button to randomly select a pokemon
+- Add accessibility attributes

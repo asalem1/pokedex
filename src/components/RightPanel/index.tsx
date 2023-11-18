@@ -159,7 +159,7 @@ export function RightPanel() {
         <PokemonStats />
         <PokemonType />
       </div>
-      <Evolution />
+      <Evolution setSearch={setSearch} />
       <MoveList />
     </div>
   )

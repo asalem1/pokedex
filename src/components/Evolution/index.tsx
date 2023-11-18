@@ -6,12 +6,20 @@ import { getEvolutionAsync } from '../../features/pokemon/pokemonSlice'
 import { selectSpeciesData, selectEvolutions } from '../../features/pokemon/selectors'
 import { useAppSelector, useAppDispatch } from '../../app/hooks'
 
-export function Evolution() {
+interface Evolution {
+  src: string
+  name: string
+}
+
+interface Props {
+  setSearch: (name: string) => void
+}
+
+export function Evolution({ setSearch }: Props) {
   const speciesData = useAppSelector(selectSpeciesData)
   const evolutions = useAppSelector(selectEvolutions)
   const dispatch = useAppDispatch()
-  const [evoSprites, setEvoSprites] = useState<string[]>([])
-  const [evoNames, setEvoNames] = useState<string[]>([])
+  const [evos, setEvos] = useState<Evolution[]>([])
 
   const getEvolutionMetadata = useCallback(() => {
     if (evolutions) {
@@ -35,10 +43,14 @@ export function Evolution() {
         evos.push(e3)
       }
       Promise.all(evos).then((data) => {
-        const sprites = data.map((v) => v.sprites.front_default ?? '')
-        const names = data.map((n) => n.name)
-        setEvoSprites(sprites)
-        setEvoNames(names)
+        const updatedEvolutions = []
+        for (const evolution of data) {
+          updatedEvolutions.push({
+            name: evolution.name,
+            src: evolution.sprites.front_default ?? '',
+          })
+        }
+        setEvos(updatedEvolutions)
       })
     }
   }, [evolutions])
@@ -62,16 +74,15 @@ export function Evolution() {
     }
   }, [changeEvolutions, speciesData?.name])
 
-  const [evo1, evo2, evo3] = evoSprites
-  const [name1, name2, name3] = evoNames
+  const [evo1, evo2, evo3] = evos
 
   return (
     <>
       <div className="evolution__title">Evolutions</div>
       <div className="evolution__row">
-        <PokemonImageSmall src={evo1} evo="I" name={name1} />
-        <PokemonImageSmall src={evo2} evo="II" name={name2} />
-        <PokemonImageSmall src={evo3} evo="III" name={name3} />
+        <PokemonImageSmall evolution={evo1} evo="I" setSearch={setSearch} />
+        <PokemonImageSmall evolution={evo2} evo="II" setSearch={setSearch} />
+        <PokemonImageSmall evolution={evo3} evo="III" setSearch={setSearch} />
       </div>
     </>
   )
