@@ -9,6 +9,7 @@
   border-radius: 3px;
   font-family: "VT323";
   border: inset #879a65 3px;
+  gap: 12px
 }
 
 .move-entry__name {
@@ -39,6 +40,10 @@
   margin-right: 3px;
 }
 
+.move-entry__left-panel {
+  flex: 1;
+}
+
 
 .move-entry__right-panel {
   display: flex;
@@ -48,6 +53,12 @@
 
 .move-list__wrapper {
   display: flex;
+}
+
+.move-entry__learn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .move-controls {

@@ -1,20 +1,36 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getPokemonByName, getAllPokemon} from './pokemonAPI';
-import { LoadingState, PartialPokemon, Pokemon } from '../../types';
+import {getPokemonByName, getAllPokemon, getSpeciesData} from './pokemonAPI';
+import {
+  FlavorTextEntry, LoadingState,
+  PartialPokemon,
+  Pokemon,
+} from '../../types';
 
 export interface PokemonState {
   activePokemon: Pokemon | null;
   allPokemon: PartialPokemon[];
+  description: string;
+  speciesData: any; // TODO: tighten this
   status: LoadingState;
 }
 
 const initialState: PokemonState = {
   activePokemon: null,
   allPokemon: [],
+  description: '',
+  speciesData: {},
   status: LoadingState.NOT_STARTED,
 };
 
 export const setPokemonAsync = createAsyncThunk(
+  'pokemon/getPokemonByName',
+  async (name: string) => {
+    const response = await getPokemonByName(name);
+    return response;
+  }
+);
+
+export const setPokemonEvolutions = createAsyncThunk(
   'pokemon/getPokemonByName',
   async (name: string) => {
     const response = await getPokemonByName(name);
@@ -27,6 +43,14 @@ export const getAllPokemonAsync = createAsyncThunk(
   async () => {
     const response = await getAllPokemon();
     return response.results;
+  }
+);
+
+export const getSpeciesDataAsync = createAsyncThunk(
+  'pokemon/getSpeciesDataAsync',
+  async (url: string) => {
+    const response = await getSpeciesData(url);
+    return response;
   }
 );
 
@@ -58,6 +82,23 @@ export const pokemonSlice = createSlice({
       .addCase(setPokemonAsync.rejected, (state) => {
         state.status = LoadingState.ERROR;
       });
+    builder
+      .addCase(getSpeciesDataAsync.pending, (state) => {
+        state.description = 'Loading...';
+      })
+      .addCase(getSpeciesDataAsync.fulfilled, (state, action) => {
+        const descriptions = action.payload.flavor_text_entries
+          .filter((flavorText: FlavorTextEntry) => flavorText.language.name === 'en')
+          .map((flavorText: FlavorTextEntry) => flavorText.flavor_text);
+
+        const description: string = descriptions[Math.floor(Math.random() * descriptions.length)];
+        state.description = description;
+        state.speciesData = action.payload;
+      })
+      .addCase(getSpeciesDataAsync.rejected, (state) => {
+        state.description =
+          'An error occurred while trying to search for the pokemon. Please try again.';
+      })
   },
 });
 

@@ -16,7 +16,7 @@ export function MoveEntry({move, level}: Props) {
   const type = move.type.name;
   return (
     <div className="move-entry__wrapper">
-      <div>
+      <div className="move-entry__left-panel">
         <div className="move-entry__name">{name}</div>
         <div className="move-entry__stat">
           <span>Accuracy</span>
@@ -33,7 +33,14 @@ export function MoveEntry({move, level}: Props) {
       </div>
       <div className="move-entry__right-panel">
         <div className="move-entry__type">Type: {type}</div>
-        <div className="move-entry__learn">Learn: Lvl {level}</div>
+        <div className="move-entry__learn">
+          <span>
+            Learn:
+          </span>
+          <span>
+            Lvl {level}
+          </span>
+          </div>
       </div>
     </div>
   );

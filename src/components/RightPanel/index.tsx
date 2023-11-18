@@ -4,7 +4,6 @@ import './RightPanel.css';
 import {debounce} from '../../utils';
 import {
   selectAllPokemon,
-  selectActivePokemon,
 } from '../../features/pokemon/selectors';
 import {LoadingState, PartialPokemon} from '../../types';
 import {PokemonStats} from '../PokemonStats';
@@ -17,7 +16,6 @@ import { setPokemonAsync } from '../../features/pokemon/pokemonSlice';
 const SAVED_SEARCH_ID = 'searchHistory';
 
 interface Props {
-  speciesData: any;
   evoSprites: any;
   evoNames: string[];
 }
