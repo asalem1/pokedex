@@ -32,7 +32,7 @@ interface VersionGroupDetail {
   }
 }
 
-interface Move {
+export interface PokemonMove {
   move: {
     name: string;
     url: string;
@@ -74,7 +74,7 @@ export interface Pokemon extends PartialPokemon {
   id: number;
   is_default: boolean;
   location_area_encounters: string;
-  moves: Move[]
+  moves: PokemonMove[]
   name: string;
   order: number;
   past_abilities: any[]; // TODO: tighten TS

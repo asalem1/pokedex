@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {MoveLoader} from './MoveLoader';
 import { MoveEntry } from './MoveEntry';
-import { LoadingState, Move } from '../../types';
+import { LoadingState, Move, PokemonMove } from '../../types';
 import './MoveList.css';
 import { getMove } from '../../features/pokemon/pokemonAPI';
 
-export function MoveList(props: any) {
+interface Props {
+  moves?: PokemonMove[];
+}
+
+export function MoveList({moves}: Props) {
   const [index, setIndex] = useState(0);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
   const [loading, setLoading] = useState(LoadingState.NOT_STARTED);
@@ -13,39 +17,40 @@ export function MoveList(props: any) {
   const loadMoves = useCallback(async () => {
     setLoading(LoadingState.LOADING);
     setIndex(index);
-    try {
-      const url = props.moves[index].move.url;
-      const data = await getMove(url);
-      setCurrentMove(data)
-      setLoading(LoadingState.DONE)
-    } catch (error) {
-      console.error({error})
-      setCurrentMove(null)
-      setLoading(LoadingState.ERROR)
+    if (moves) {
+      try {
+        const url = moves[index].move.url;
+        const data = await getMove(url);
+        setCurrentMove(data);
+        setLoading(LoadingState.DONE);
+      } catch (error) {
+        console.error({error});
+        setCurrentMove(null);
+        setLoading(LoadingState.ERROR);
+      }
     }
-
-  }, [props.moves, index])
+  }, [moves, index]);
 
   useEffect(() => {
     loadMoves();
-  }, [index, loadMoves])
-
+  }, [index, loadMoves]);
 
   const nextMove = () => {
-    const nextIndex = Math.min(
-      index + 1,
-      props.moves.length - 1
-    );
-    setIndex(nextIndex)
-  }
+    if (moves) {
+      const nextIndex = Math.min(index + 1, moves.length - 1);
+      setIndex(nextIndex);
+    }
+  };
 
   const previousMove = () => {
     const prevIndex = Math.max(index - 1, 0);
     setIndex(prevIndex);
-  }
+  };
 
-  const showMoveLoader = loading === LoadingState.LOADING || currentMove === null;
+  const showMoveLoader =
+    loading === LoadingState.LOADING || currentMove === null || moves == null;
 
+  console.log({showMoveLoader, currentMove});
   return (
     <div className="move-list__wrapper">
       {showMoveLoader ? (
@@ -53,16 +58,24 @@ export function MoveList(props: any) {
       ) : (
         <MoveEntry
           move={currentMove}
-          level={props.moves[index].version_group_details[0].level_learned_at}
+          level={moves[index].version_group_details[0].level_learned_at}
         />
       )}
       <div className="move-controls">
-        <div className="move-arrow" onClick={previousMove}>
+        <button
+          className="move-arrow"
+          onClick={previousMove}
+          disabled={showMoveLoader}
+        >
           <i className="fas fa-caret-up" />
-        </div>
-        <div className="move-arrow" onClick={nextMove}>
+        </button>
+        <button
+          className="move-arrow"
+          onClick={nextMove}
+          disabled={showMoveLoader}
+        >
           <i className="fas fa-caret-down" />
-        </div>
+        </button>
       </div>
     </div>
   );
