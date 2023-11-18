@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import './PokeBall.css'
 
 export function PokeBall() {
@@ -12,5 +12,5 @@ export function PokeBall() {
         <div className="poke-ball-bottom" />
       </div>
     </div>
-  );
+  )
 }

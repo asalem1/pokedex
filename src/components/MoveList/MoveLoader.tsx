@@ -1,11 +1,11 @@
-import React from "react";
-import './MoveList.css';
+import React from 'react'
+import './MoveList.css'
 
 export function MoveLoader() {
   return (
     <div className="move-entry__wrapper">
       <div>
-        <div className="move-entry__name" style={{textTransform: 'none'}}>
+        <div className="move-entry__name" style={{ textTransform: 'none' }}>
           xxxxx xxxxx
         </div>
         <div className="move-entry__stat">
@@ -26,5 +26,5 @@ export function MoveLoader() {
         <div className="move-entry__learn">Learn: Lvl xx</div>
       </div>
     </div>
-  );
+  )
 }

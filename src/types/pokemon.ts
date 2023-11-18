@@ -1,90 +1,90 @@
 export interface PartialPokemon {
-  name: string;
-  url: string;
+  name: string
+  url: string
 }
 
 interface Ability {
   ability: {
-    name: string;
-    url: string;
+    name: string
+    url: string
   }
-  is_hidden: boolean;
-  slot: number;
+  is_hidden: boolean
+  slot: number
 }
 
 interface GameIndex {
-  game_index: number;
+  game_index: number
   version: {
-    name: string;
-    url: string;
+    name: string
+    url: string
   }
 }
 
 interface VersionGroupDetail {
-  level_learned_at: number;
+  level_learned_at: number
   move_learn_method: {
-    name: string;
-    url: string;
-  };
+    name: string
+    url: string
+  }
   version_group: {
-    name: string;
+    name: string
     url: string
   }
 }
 
 export interface PokemonMove {
   move: {
-    name: string;
-    url: string;
-  };
-  version_group_details: VersionGroupDetail[],
+    name: string
+    url: string
+  }
+  version_group_details: VersionGroupDetail[]
 }
 
 export interface Sprite {
-  front_default?: string;
+  front_default?: string
 } // TODO: tighten TS
 
 export interface Stat {
-  base_stat: number;
-  effort: number;
+  base_stat: number
+  effort: number
   stat: {
-    name: string;
-    url: string;
+    name: string
+    url: string
   }
 }
 
 export interface Type {
-  slot: number;
+  slot: number
   type: {
-    name: string;
-    url: string;
-  };
-};
+    name: string
+    url: string
+  }
+}
 
 export interface Pokemon extends PartialPokemon {
-  abilities: Ability[];
-  base_experience: number;
+  abilities: Ability[]
+  base_experience: number
   forms: Array<{
-    name: string;
-    url: string;
+    name: string
+    url: string
   }>
-  game_indices: GameIndex;
-  height: number;
-  held_items: any[]; // TODO: tighten TS
-  id: number;
-  is_default: boolean;
-  location_area_encounters: string;
+  game_indices: GameIndex
+  height: number
+  held_items: any[] // TODO: tighten TS
+  id: number
+  is_default: boolean
+  location_area_encounters: string
   moves: PokemonMove[]
-  name: string;
-  order: number;
-  past_abilities: any[]; // TODO: tighten TS
-  past_types: any[]; // TODO: tighten TS
+  name: string
+  order: number
+  past_abilities: any[] // TODO: tighten TS
+  past_types: any[] // TODO: tighten TS
   species: {
-    name: string;
-    url: string;
-  };
-  sprites: Sprite;
-  stats: Stat[];
-  types: Type[];
-  weight: number;
+    name: string
+    url: string
+  }
+  sprites: Sprite
+  stats: Stat[]
+  types: Type[]
+  weight: number
 }

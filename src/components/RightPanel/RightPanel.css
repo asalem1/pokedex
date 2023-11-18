@@ -23,7 +23,7 @@
   padding: 10px;
   border-bottom: 1px solid #ccc;
   cursor: pointer;
-  font-family: "VT323";
+  font-family: 'VT323';
   font-size: 16px;
 }
 
@@ -35,7 +35,7 @@
   background: linear-gradient(14deg, rgb(165, 205, 83) 60%, rgb(193, 217, 144) 65%);
   padding: 5px;
   border-radius: 3px;
-  font-family: "VT323";
+  font-family: 'VT323';
   border: inset #879a65 3px;
   font-size: 18px;
   letter-spacing: 4px;
@@ -57,7 +57,7 @@
 }
 
 .pokedex__search {
-  font-family: "VT323";
+  font-family: 'VT323';
   font-size: 18px;
 }
 
@@ -72,5 +72,5 @@
 }
 
 .search-items__list-item:hover {
-  background-color: rgba(0,0,0,.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }

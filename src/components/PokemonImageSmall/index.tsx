@@ -1,24 +1,18 @@
-import React from 'react';
-import './PokemonImageSmall.css';
-import { PokeBall } from '../PokeBall';
+import React from 'react'
+import './PokemonImageSmall.css'
+import { PokeBall } from '../PokeBall'
 
 interface Props {
-  name?: string;
-  evo: 'I' | 'II' | 'III';
-  src?: string;
+  name?: string
+  evo: 'I' | 'II' | 'III'
+  src?: string
 }
 
 export function PokemonImageSmall({ evo, name, src }: Props) {
-  let evoImage = <PokeBall />;
+  let evoImage = <PokeBall />
 
   if (src) {
-    evoImage = (
-      <img
-        src={src}
-        alt="pokemon"
-        className="pokemon-sprite__small"
-      />
-    );
+    evoImage = <img src={src} alt="pokemon" className="pokemon-sprite__small" />
   }
 
   return (
@@ -29,5 +23,5 @@ export function PokemonImageSmall({ evo, name, src }: Props) {
       {evoImage}
       <div className="evolution__name">{name || 'No Data'}</div>
     </div>
-  );
+  )
 }

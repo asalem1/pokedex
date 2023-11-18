@@ -1,5 +1,5 @@
-import React from 'react';
-import './Divider.css';
+import React from 'react'
+import './Divider.css'
 
 export const Divider = () => (
   <div className="divider">
@@ -11,4 +11,4 @@ export const Divider = () => (
     <div className="hinge" />
     <div className="gap" />
   </div>
-);
+)

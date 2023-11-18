@@ -1,19 +1,18 @@
-import React from 'react';
-import './MoveList.css';
+import React from 'react'
+import './MoveList.css'
 import { Move } from '../../types'
 
 interface Props {
-  level: number;
-  move: Move;
+  level: number
+  move: Move
 }
 
-export function MoveEntry({move, level}: Props) {
-  const name =
-    move.name || move.names.filter((m) => m.language.name === 'en')[0].name;
-  const acc = move.accuracy;
-  const pow = move.power;
-  const pp = move.pp;
-  const type = move.type.name;
+export function MoveEntry({ move, level }: Props) {
+  const name = move.name || move.names.filter((m) => m.language.name === 'en')[0].name
+  const acc = move.accuracy
+  const pow = move.power
+  const pp = move.pp
+  const type = move.type.name
   return (
     <div className="move-entry__wrapper">
       <div className="move-entry__left-panel">
@@ -34,14 +33,10 @@ export function MoveEntry({move, level}: Props) {
       <div className="move-entry__right-panel">
         <div className="move-entry__type">Type: {type}</div>
         <div className="move-entry__learn">
-          <span>
-            Learn:
-          </span>
-          <span>
-            Lvl {level}
-          </span>
-          </div>
+          <span>Learn:</span>
+          <span>Lvl {level}</span>
+        </div>
       </div>
     </div>
-  );
+  )
 }

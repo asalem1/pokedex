@@ -1,69 +1,65 @@
-import React, {useCallback, useEffect, useRef, useState} from 'react';
-import type { RefObject } from 'react';
-import './RightPanel.css';
-import {debounce} from '../../utils';
-import {
-  selectAllPokemon,
-} from '../../features/pokemon/selectors';
-import {LoadingState, PartialPokemon} from '../../types';
-import {PokemonStats} from '../PokemonStats';
-import {PokemonType} from '../PokemonType';
-import {Evolution} from '../Evolution';
-import {MoveList} from '../MoveList';
-import {useAppDispatch, useAppSelector} from '../../app/hooks';
-import { setPokemonAsync } from '../../features/pokemon/pokemonSlice';
+import React, { useCallback, useEffect, useRef, useState } from 'react'
+import type { RefObject } from 'react'
+import './RightPanel.css'
+import { debounce } from '../../utils'
+import { selectAllPokemon } from '../../features/pokemon/selectors'
+import { LoadingState, PartialPokemon } from '../../types'
+import { PokemonStats } from '../PokemonStats'
+import { PokemonType } from '../PokemonType'
+import { Evolution } from '../Evolution'
+import { MoveList } from '../MoveList'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { setPokemonAsync } from '../../features/pokemon/pokemonSlice'
 
-const SAVED_SEARCH_ID = 'searchHistory';
+const SAVED_SEARCH_ID = 'searchHistory'
 
 export function RightPanel() {
-  const allPokemon = useAppSelector(selectAllPokemon) ?? [];
-  const dispatch = useAppDispatch();
+  const allPokemon = useAppSelector(selectAllPokemon) ?? []
+  const dispatch = useAppDispatch()
 
-  const inputRef: RefObject<HTMLInputElement> = useRef(null);
-  const dropdownRef: RefObject<HTMLUListElement> = useRef(null);
+  const inputRef: RefObject<HTMLInputElement> = useRef(null)
+  const dropdownRef: RefObject<HTMLUListElement> = useRef(null)
 
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [loading, setLoading] = useState<LoadingState>(
-    LoadingState.NOT_STARTED
-  );
-  const [searchHistory, setSearchHistory] = useState<string[]>([]);
-  const [search, setSearch] = useState('');
-  const [searchResults, setSearchResults] = useState<PartialPokemon[]>([]);
+  const [dropdownVisible, setDropdownVisible] = useState(false)
+  const [loading, setLoading] = useState<LoadingState>(LoadingState.NOT_STARTED)
+  const [searchHistory, setSearchHistory] = useState<string[]>([])
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState<PartialPokemon[]>([])
 
   const debouncedGetPokemon = useCallback(
     debounce(async (value: string) => {
       try {
-        setLoading(LoadingState.LOADING);
-        const filteredResults = allPokemon.filter((pokemon) => pokemon.name
-          .toLocaleLowerCase()
-          .includes(value.toLocaleLowerCase()));
-        setSearchResults(filteredResults);
-        setLoading(LoadingState.DONE);
+        setLoading(LoadingState.LOADING)
+        const filteredResults = allPokemon.filter((pokemon) =>
+          pokemon.name.toLocaleLowerCase().includes(value.toLocaleLowerCase()),
+        )
+        setSearchResults(filteredResults)
+        setLoading(LoadingState.DONE)
       } catch (error) {
-        setLoading(LoadingState.ERROR);
-        console.error(error);
-        setSearchResults([]);
+        setLoading(LoadingState.ERROR)
+        console.error(error)
+        setSearchResults([])
       }
     }, 300),
-    [allPokemon]
-  );
+    [allPokemon],
+  )
 
   useEffect(() => {
-    const localSearchHistory = localStorage.getItem(SAVED_SEARCH_ID);
+    const localSearchHistory = localStorage.getItem(SAVED_SEARCH_ID)
     if (localSearchHistory && typeof localSearchHistory === 'string') {
-      setSearchHistory(JSON.parse(localSearchHistory));
+      setSearchHistory(JSON.parse(localSearchHistory))
     }
   }, [])
 
   useEffect(() => {
     if (search) {
-      debouncedGetPokemon(search);
+      debouncedGetPokemon(search)
     }
     if (!search && loading !== LoadingState.NOT_STARTED) {
-      setLoading(LoadingState.NOT_STARTED);
-      setSearchResults([]);
+      setLoading(LoadingState.NOT_STARTED)
+      setSearchResults([])
     }
-  }, [debouncedGetPokemon, loading, search]);
+  }, [debouncedGetPokemon, loading, search])
 
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -73,48 +69,44 @@ export function RightPanel() {
         dropdownRef.current &&
         !dropdownRef.current?.contains(event.target as Node)
       ) {
-        setDropdownVisible(false);
+        setDropdownVisible(false)
       }
-    };
+    }
 
-    document.addEventListener('mousedown', handleOutsideClick);
+    document.addEventListener('mousedown', handleOutsideClick)
 
     return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
-
+      document.removeEventListener('mousedown', handleOutsideClick)
+    }
+  }, [])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    setSearch(newValue);
-  };
+    const newValue = event.target.value
+    setSearch(newValue)
+  }
 
   const handleInputClick = () => {
-    setDropdownVisible(true);
+    setDropdownVisible(true)
   }
 
   const handleItemClick = (pokemon: PartialPokemon) => {
-    setSearch(pokemon.name);
+    setSearch(pokemon.name)
     const updatedHistory = searchHistory.slice()
     if (!searchHistory.includes(pokemon.name)) {
       updatedHistory.push(pokemon.name)
     }
-    localStorage.setItem(SAVED_SEARCH_ID, JSON.stringify(updatedHistory));
-    setSearchHistory(updatedHistory);
-    setDropdownVisible(false);
-    dispatch(setPokemonAsync(pokemon.name));
+    localStorage.setItem(SAVED_SEARCH_ID, JSON.stringify(updatedHistory))
+    setSearchHistory(updatedHistory)
+    setDropdownVisible(false)
+    dispatch(setPokemonAsync(pokemon.name))
   }
 
   const handlePastSearchClick = (pokemonName: string) => {
-    setSearch(pokemonName);
-    dispatch(setPokemonAsync(pokemonName));
+    setSearch(pokemonName)
+    dispatch(setPokemonAsync(pokemonName))
   }
 
-  const showEmpty =
-    searchResults.length === 0 &&
-    search.length > 0 &&
-    loading === LoadingState.DONE;
+  const showEmpty = searchResults.length === 0 && search.length > 0 && loading === LoadingState.DONE
 
   return (
     <div className="right-panel__wrapper">
@@ -134,7 +126,7 @@ export function RightPanel() {
             width: inputRef.current?.clientWidth,
           }}
         >
-          {searchResults.length > 0 && (
+          {searchResults.length > 0 &&
             searchResults.map((pokemon, index) => (
               <li
                 key={index}
@@ -143,15 +135,8 @@ export function RightPanel() {
               >
                 {pokemon.name}
               </li>
-            ))
-          )}
-          {showEmpty && (
-            <li
-              className="right-panel__list-item"
-            >
-              no match for "{search}""
-            </li>
-          )}
+            ))}
+          {showEmpty && <li className="right-panel__list-item">no match for "{search}""</li>}
         </ul>
       )}
       <div className="panel-row">
@@ -177,5 +162,5 @@ export function RightPanel() {
       <Evolution />
       <MoveList />
     </div>
-  );
+  )
 }

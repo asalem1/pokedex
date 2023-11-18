@@ -1,5 +1,5 @@
-import React from 'react';
-import './Loader.css';
+import React from 'react'
+import './Loader.css'
 
 export const Loader = () => (
   <div className="loading-container">
@@ -9,4 +9,4 @@ export const Loader = () => (
       alt="Pokeball loader"
     />
   </div>
-);
+)
