@@ -1,25 +1,24 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {MoveLoader} from './MoveLoader';
 import { MoveEntry } from './MoveEntry';
-import { LoadingState, Move, PokemonMove } from '../../types';
+import { LoadingState, Move } from '../../types';
 import './MoveList.css';
 import { getMove } from '../../features/pokemon/pokemonAPI';
+import {selectActivePokemon} from '../../features/pokemon/selectors';
+import {useAppSelector} from '../../app/hooks';
 
-interface Props {
-  moves?: PokemonMove[];
-}
-
-export function MoveList({moves}: Props) {
+export function MoveList() {
   const [index, setIndex] = useState(0);
   const [currentMove, setCurrentMove] = useState<Move | null>(null);
   const [loading, setLoading] = useState(LoadingState.NOT_STARTED);
+  const activePokemon = useAppSelector(selectActivePokemon);
 
   const loadMoves = useCallback(async () => {
     setLoading(LoadingState.LOADING);
     setIndex(index);
-    if (moves) {
+    if (activePokemon?.moves) {
       try {
-        const url = moves[index].move.url;
+        const url = activePokemon?.moves[index].move.url;
         const data = await getMove(url);
         setCurrentMove(data);
         setLoading(LoadingState.DONE);
@@ -29,15 +28,15 @@ export function MoveList({moves}: Props) {
         setLoading(LoadingState.ERROR);
       }
     }
-  }, [moves, index]);
+  }, [activePokemon?.moves, index]);
 
   useEffect(() => {
     loadMoves();
   }, [index, loadMoves]);
 
   const nextMove = () => {
-    if (moves) {
-      const nextIndex = Math.min(index + 1, moves.length - 1);
+    if (activePokemon?.moves) {
+      const nextIndex = Math.min(index + 1, activePokemon.moves.length - 1);
       setIndex(nextIndex);
     }
   };
@@ -48,9 +47,8 @@ export function MoveList({moves}: Props) {
   };
 
   const showMoveLoader =
-    loading === LoadingState.LOADING || currentMove === null || moves == null;
+    loading === LoadingState.LOADING || currentMove === null || activePokemon?.moves == null;
 
-  console.log({showMoveLoader, currentMove});
   return (
     <div className="move-list__wrapper">
       {showMoveLoader ? (
@@ -58,7 +56,7 @@ export function MoveList({moves}: Props) {
       ) : (
         <MoveEntry
           move={currentMove}
-          level={moves[index].version_group_details[0].level_learned_at}
+          level={activePokemon.moves[index].version_group_details[0].level_learned_at}
         />
       )}
       <div className="move-controls">

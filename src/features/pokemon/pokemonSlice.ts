@@ -53,7 +53,6 @@ export const pokemonSlice = createSlice({
       })
       .addCase(setPokemonAsync.fulfilled, (state, action) => {
         state.status = LoadingState.DONE;
-        console.log({action, payload: action.payload})
         state.activePokemon = action.payload;
       })
       .addCase(setPokemonAsync.rejected, (state) => {

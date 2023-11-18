@@ -23,14 +23,10 @@ interface Props {
 }
 
 export function RightPanel(props: Props) {
-  const activePokemon = useAppSelector(selectActivePokemon);
   const allPokemon = useAppSelector(selectAllPokemon) ?? [];
   const dispatch = useAppDispatch();
   // TODO: handle loading states
 
-  const types = activePokemon?.types;
-  const stats = activePokemon?.stats;
-  const moves = activePokemon?.moves;
   const inputRef: RefObject<HTMLInputElement> = useRef(null);
   const dropdownRef: RefObject<HTMLUListElement> = useRef(null);
 
@@ -183,11 +179,11 @@ export function RightPanel(props: Props) {
         </div>
       </div>
       <div className="panel-row">
-        <PokemonStats stats={stats ?? []} />
-        <PokemonType types={types ?? []} />
+        <PokemonStats />
+        <PokemonType />
       </div>
       <Evolution evoSprites={props.evoSprites} evoNames={props.evoNames} />
-      <MoveList moves={moves} />
+      <MoveList />
     </div>
   );
 }

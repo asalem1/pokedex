@@ -1,15 +1,15 @@
 import React from 'react'
-import { Stat } from '../../types';
 import './PokemonStats.css'
+import {selectActivePokemon} from '../../features/pokemon/selectors';
+import {useAppSelector} from '../../app/hooks';
 
-interface Props {
-  stats: Stat[]
-}
 
-export function PokemonStats({ stats }: Props) {
+export function PokemonStats() {
+  const activePokemon = useAppSelector(selectActivePokemon);
+
   return (
     <div className="pokemon-stats__wrapper">
-      {stats.map((s) => {
+      {activePokemon?.stats.map((s) => {
         const name = s.stat.name;
         const value = s.base_stat ?? 'xx';
 
