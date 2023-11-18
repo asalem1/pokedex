@@ -1,11 +1,10 @@
 import React from 'react';
 import './PokemonImage.css';
+import { Sprite } from '../../types';
 
 interface Props {
-  src: {
-    front_default?: string;
-  };
-}
+  src: Sprite
+};
 
 export function PokemonImage({src}: Props) {
   const imgSrc = src?.['front_default'] ?? '';

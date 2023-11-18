@@ -40,7 +40,9 @@ interface Move {
   version_group_details: VersionGroupDetail[],
 }
 
-interface Sprite {} // TODO: tighten TS
+export interface Sprite {
+  front_default?: string;
+} // TODO: tighten TS
 
 export interface Stat {
   base_stat: number;
@@ -83,6 +85,6 @@ export interface Pokemon extends PartialPokemon {
   };
   sprites: Sprite;
   stats: Stat[];
-  type: Type[];
+  types: Type[];
   weight: number;
 }

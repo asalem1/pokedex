@@ -3,8 +3,8 @@ import { Move, PaginatedNetworkResponse, PartialPokemon, Pokemon} from '../../ty
 const API = 'https://pokeapi.co/api/v2/pokemon/';
 const ALL_POKEMON_COUNT = 1292;
 
-export function getPokemonById(id: number): Promise<PaginatedNetworkResponse<Pokemon[]>> {
-  const request = `${API}${id}/`;
+export function getPokemonByName(name: string): Promise<Pokemon> {
+  const request = `${API}${name}/`;
   return fetch(request, {
     cache: 'force-cache',
   }).then((response) => response.json());

@@ -1,23 +1,36 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import type { RefObject } from 'react';
 import './RightPanel.css';
-import {Loader} from '../Loader';
 import {debounce} from '../../utils';
-import {useAppSelector} from '../../app/hooks';
-import {selectAllPokemon} from '../../features/pokemon/selectors';
+import {
+  selectAllPokemon,
+  selectActivePokemon,
+} from '../../features/pokemon/selectors';
 import {LoadingState, PartialPokemon} from '../../types';
 import {PokemonStats} from '../PokemonStats';
 import {PokemonType} from '../PokemonType';
 import {Evolution} from '../Evolution';
 import {MoveList} from '../MoveList';
+import {useAppDispatch, useAppSelector} from '../../app/hooks';
+import { setPokemonAsync } from '../../features/pokemon/pokemonSlice';
 
 const SAVED_SEARCH_ID = 'searchHistory';
 
-export function RightPanel(props: any) {
+interface Props {
+  speciesData: any;
+  evoSprites: any;
+  evoNames: string[];
+}
+
+export function RightPanel(props: Props) {
+  const activePokemon = useAppSelector(selectActivePokemon);
   const allPokemon = useAppSelector(selectAllPokemon) ?? [];
-  const types = props.pData.types;
-  const stats = props.pData.stats;
-  const moves = props.pData.moves;
+  const dispatch = useAppDispatch();
+  // TODO: handle loading states
+
+  const types = activePokemon?.types;
+  const stats = activePokemon?.stats;
+  const moves = activePokemon?.moves;
   const inputRef: RefObject<HTMLInputElement> = useRef(null);
   const dropdownRef: RefObject<HTMLUListElement> = useRef(null);
 
@@ -102,7 +115,12 @@ export function RightPanel(props: any) {
     localStorage.setItem(SAVED_SEARCH_ID, JSON.stringify(updatedHistory));
     setSearchHistory(updatedHistory);
     setDropdownVisible(false);
-    // TODO: set the active pokemon
+    dispatch(setPokemonAsync(pokemon.name));
+  }
+
+  const handlePastSearchClick = (pokemonName: string) => {
+    setSearch(pokemonName);
+    dispatch(setPokemonAsync(pokemonName));
   }
 
   const showEmpty =
@@ -110,70 +128,66 @@ export function RightPanel(props: any) {
     search.length > 0 &&
     loading === LoadingState.DONE;
 
-  if (types) {
-    return (
-      <div className="right-panel__wrapper">
-        <input
-          className="pokedex__search"
-          placeholder="Search..."
-          value={search}
-          onChange={handleInputChange}
-          onClick={handleInputClick}
-          ref={inputRef}
-        />
-        {dropdownVisible && (
-          <ul
-            className="right-panel__list-wrapper"
-            ref={dropdownRef}
-            style={{
-              width: inputRef.current?.clientWidth,
-            }}
-          >
-            {searchResults.length > 0 && (
-              searchResults.map((pokemon, index) => (
-                <li
-                  key={index}
-                  className="right-panel__list-item"
-                  onClick={() => handleItemClick(pokemon)}
-                >
-                  {pokemon.name}
-                </li>
-              ))
-            )}
-            {showEmpty && (
+  return (
+    <div className="right-panel__wrapper">
+      <input
+        className="pokedex__search"
+        placeholder="Search..."
+        value={search}
+        onChange={handleInputChange}
+        onClick={handleInputClick}
+        ref={inputRef}
+      />
+      {dropdownVisible && (
+        <ul
+          className="right-panel__list-wrapper"
+          ref={dropdownRef}
+          style={{
+            width: inputRef.current?.clientWidth,
+          }}
+        >
+          {searchResults.length > 0 && (
+            searchResults.map((pokemon, index) => (
               <li
+                key={index}
                 className="right-panel__list-item"
+                onClick={() => handleItemClick(pokemon)}
               >
-                no match for "{search}""
+                {pokemon.name}
               </li>
-            )}
+            ))
+          )}
+          {showEmpty && (
+            <li
+              className="right-panel__list-item"
+            >
+              no match for "{search}""
+            </li>
+          )}
+        </ul>
+      )}
+      <div className="panel-row">
+        <div className="right-panel__searched-items">
+          Previously Searched Items:
+          <ul className="search-items__list">
+            {searchHistory.map((pokemonName, index) => (
+              <li
+                className="search-items__list-item"
+                key={index}
+                onClick={() => handlePastSearchClick(pokemonName)}
+              >
+                {pokemonName}
+              </li>
+            ))}
           </ul>
-        )}
-        <div className="panel-row">
-          <div className="right-panel__searched-items">
-            Previously Searched Items:
-            <ul className="search-items__list">
-              {searchHistory.map((item, index) => (
-                <li
-                  className="search-items__list-item"
-                  key={index}
-                  onClick={() => setSearch(item)}
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
-        <div className="panel-row">
-          <PokemonStats stats={stats} />
-          <PokemonType types={types} />
-        </div>
-        <Evolution evoSprites={props.evoSprites} evoNames={props.evoNames} />
-        <MoveList moves={moves} />
       </div>
-    );
-  } else {
-    return <Loader />;
-  }
+      <div className="panel-row">
+        <PokemonStats stats={stats ?? []} />
+        <PokemonType types={types ?? []} />
+      </div>
+      <Evolution evoSprites={props.evoSprites} evoNames={props.evoNames} />
+      <MoveList moves={moves} />
+    </div>
+  );
 }

@@ -3,19 +3,17 @@ import "./App.css";
 import {LeftPanel} from "./components/LeftPanel";
 import {RightPanel} from "./components/RightPanel";
 import { Divider } from "./components/Divider";
-import {useAppDispatch} from './app/hooks';
+import {useAppDispatch, useAppSelector} from './app/hooks';
 import { getAllPokemonAsync } from "./features/pokemon/pokemonSlice";
 import { FlavorTextEntry } from "./types";
-
-const POKEMON_ID = 1;
+import { selectActivePokemon } from "./features/pokemon/selectors";
 
 const API = "https://pokeapi.co/api/v2/pokemon/"
 
 function App() {
     const dispatch = useAppDispatch();
+    const activePokemon = useAppSelector(selectActivePokemon);
 
-    const [pokemonId, setPokemonId] = useState(POKEMON_ID);
-    const [pokemonData, setPokemonData] = useState({});
     const [pokemonDescription, setPokemonDescription] = useState('');
     const [speciesData, setSpeciesData] = useState({});
     const [evoSprites, setEvoSprites] = useState<string[]>([]);
@@ -30,19 +28,12 @@ function App() {
       handleGetAllPokemon();
     }, [handleGetAllPokemon]);
 
-    const changePokemon = React.useCallback((index: number) => {
+    const changePokemon = React.useCallback(() => {
       setLoading(true);
-      const request = `${API}${index}/`;
-      fetch(request, {
-        cache: 'force-cache',
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setPokemonData(data);
-          setPokemonId(data.id);
-          const speciesRequest = data.species.url;
-          return fetch(speciesRequest);
-        })
+      // TODO: move this up
+      if (activePokemon != null) {
+        const speciesRequest = activePokemon.species.url;
+        fetch(speciesRequest)
         .then((response) => response.json())
         .then((data) => {
           setSpeciesData(data);
@@ -90,27 +81,25 @@ function App() {
                 });
             });
         });
-    }, [pokemonId]);
+      }
+    }, []);
 
     React.useEffect(() => {
-      // TODO: connect this with the selected pokemon
-      changePokemon(POKEMON_ID);
-    }, [changePokemon]);
+      if (activePokemon?.name) {
+        changePokemon();
+      }
+    }, [changePokemon, activePokemon?.name]);
 
     return (
       <div className="pokedex">
         <LeftPanel
-          pData={pokemonData}
-          id={pokemonId}
           description={pokemonDescription}
         />
         <Divider />
         <RightPanel
-          pData={pokemonData}
-          sData={speciesData}
+          speciesData={speciesData}
           evoSprites={evoSprites}
           evoNames={evoNames}
-          no={pokemonId}
         />
       </div>
     );
