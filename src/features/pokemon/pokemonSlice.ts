@@ -1,7 +1,9 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {getPokemonByName, getAllPokemon, getSpeciesData} from './pokemonAPI';
+import {getPokemonByName, getAllPokemon, getEvolutions, getSpeciesData} from './pokemonAPI';
 import {
-  FlavorTextEntry, LoadingState,
+  Evolution,
+  FlavorTextEntry,
+  LoadingState,
   PartialPokemon,
   Pokemon,
 } from '../../types';
@@ -10,6 +12,7 @@ export interface PokemonState {
   activePokemon: Pokemon | null;
   allPokemon: PartialPokemon[];
   description: string;
+  evolutions: Evolution | null;
   speciesData: any; // TODO: tighten this
   status: LoadingState;
 }
@@ -18,6 +21,7 @@ const initialState: PokemonState = {
   activePokemon: null,
   allPokemon: [],
   description: '',
+  evolutions: null,
   speciesData: {},
   status: LoadingState.NOT_STARTED,
 };
@@ -50,6 +54,14 @@ export const getSpeciesDataAsync = createAsyncThunk(
   'pokemon/getSpeciesDataAsync',
   async (url: string) => {
     const response = await getSpeciesData(url);
+    return response;
+  }
+);
+
+export const getEvolutionAsync = createAsyncThunk(
+  'pokemon/getEvolutionAsync',
+  async (url: string) => {
+    const response = await getEvolutions(url);
     return response;
   }
 );
@@ -98,6 +110,10 @@ export const pokemonSlice = createSlice({
       .addCase(getSpeciesDataAsync.rejected, (state) => {
         state.description =
           'An error occurred while trying to search for the pokemon. Please try again.';
+      })
+    builder
+      .addCase(getEvolutionAsync.fulfilled, (state, action) => {
+        state.evolutions = action.payload;
       })
   },
 });

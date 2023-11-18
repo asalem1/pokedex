@@ -15,15 +15,9 @@ import { setPokemonAsync } from '../../features/pokemon/pokemonSlice';
 
 const SAVED_SEARCH_ID = 'searchHistory';
 
-interface Props {
-  evoSprites: any;
-  evoNames: string[];
-}
-
-export function RightPanel(props: Props) {
+export function RightPanel() {
   const allPokemon = useAppSelector(selectAllPokemon) ?? [];
   const dispatch = useAppDispatch();
-  // TODO: handle loading states
 
   const inputRef: RefObject<HTMLInputElement> = useRef(null);
   const dropdownRef: RefObject<HTMLUListElement> = useRef(null);
@@ -180,7 +174,7 @@ export function RightPanel(props: Props) {
         <PokemonStats />
         <PokemonType />
       </div>
-      <Evolution evoSprites={props.evoSprites} evoNames={props.evoNames} />
+      <Evolution />
       <MoveList />
     </div>
   );
