@@ -1,10 +1,32 @@
-# Getting Started with Create React App
+# Pokedex
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) TS template.
 
-## Available Scripts
+This Pokedex serves as an encyclopedia or database of information about various Pokemon species. Trainers in the Pokemon world use the Pokedex to obtain information about Pokemon they encounter during their journeys. The device provides details such as a Pokemon's type, height, weight, and a brief description of its characteristics.
 
-In the project directory, you can run:
+This Pokedex allows the user to search pokemon by their name, finding all their associated metadata. The pokedex also stores their past searches for easier pokemon retrieval.
+
+## How to Get Started
+
+Before you begin, ensure you have the following installed:
+
+### Prerequisites
+
+[Node.js](https://nodejs.org/en):
+
+### Installation
+
+Clone the repository: git clone https://github.com/asalem1/pokedex.git
+
+Navigate to the project directory:
+
+`cd pokedex`
+
+Install dependencies:
+
+### `npm install`
+
+Installs the dependencies
 
 ### `npm start`
 
@@ -13,34 +35,22 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
+Open your browser and visit http://localhost:3000 to view the Pokedex.
 
-### `npm test`
+### `npm run format`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Formats the project to align with the linter specifications
 
-### `npm run build`
+## How to Use
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+When the app is up and running, you can search for the pokemon you want to find out about by typing in the input field in the right panel.
+Selecting a pokemon from the dropdown will populate the pokedex with all the information you need to know about the pokemon
+Once you've selected an pokemon from the list, that selection will be saved in the past searches
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Future Improvements
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Add tests
+- Flesh out the TS types
+- Update the API to allow for partial name matching
+- Update the UI to handle various loading states differently through each section
+- Add a randomize button to randomly select a pokemon
